@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enquiry autopilot — instant replies for small businesses</title>
+<meta name="description" content="Every enquiry from your website lands in a spreadsheet, the customer gets an instant reply, and you get a notification. Set up in 2 days, fixed price.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f5;
+    --surface:#ffffff;
+    --surface-2:#fbfbfa;
+    --ink:#171923;
+    --muted:#69707c;
+    --line:#e5e5e0;
+    --line-strong:#d1d1ca;
+    --accent:#4f46e5;
+    --accent-strong:#4338ca;
+    --accent-soft:#eef0ff;
+    --accent-light:#c7c9ff;
+    --shadow:0 24px 60px -34px rgba(30,32,70,.38);
+    --radius:20px;
+    --max:1160px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden
+  }
+  h1,h2,h3,.serif{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+  h2{font-size:clamp(28px,4vw,42px);line-height:1.1;margin:0 0 12px}
+  h3{font-size:21px;line-height:1.25;margin:0}
+  p{margin:0 0 16px}
+  a{color:inherit}
+  .wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  .muted{color:var(--muted)}
+  .skip{position:absolute;left:-999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:99}
+  .skip:focus{left:0}
+
+  .topbar{background:#171923;color:#d9d9d4;font-size:12.5px;padding:9px 0;text-align:center}
+  .topbar a{color:#fff;font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+  .site-head{padding:16px 0;border-bottom:1px solid var(--line)}
+  .head-row{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand-mark{
+    width:44px;height:44px;border-radius:12px;background:var(--accent);flex:0 0 auto;
+    display:grid;place-items:center;box-shadow:0 8px 18px -8px rgba(79,70,229,.65)
+  }
+  .brand-mark svg{width:23px;height:23px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .brand-name{font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1.2;display:block}
+  .brand-sub{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+  .site-nav{display:flex;align-items:center;gap:24px}
+  .site-nav a{font-size:14px;text-decoration:none;color:var(--muted);transition:color .15s}
+  .site-nav a:hover{color:var(--ink)}
+  .site-nav .btn{color:#fff}
+  .site-nav .btn:hover{color:#fff}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--accent);color:#fff;border:1px solid transparent;border-radius:999px;
+    padding:13px 24px;font-family:inherit;font-size:15px;font-weight:600;line-height:1.2;
+    text-decoration:none;cursor:pointer;min-height:46px;
+    transition:background .18s ease,transform .18s ease,border-color .18s ease,color .18s ease
+  }
+  .btn:hover{background:var(--accent-strong);transform:translateY(-1px)}
+  .btn:focus-visible{outline:3px solid var(--accent-light);outline-offset:2px}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{background:transparent;border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+  .btn-sm{padding:9px 18px;min-height:40px;font-size:13.5px}
+  .btn-block{width:100%}
+
+  .hero{display:grid;grid-template-columns:1.06fr .94fr;gap:52px;align-items:center;padding:60px 0 72px}
+  .hero h1{font-size:clamp(44px,7.4vw,80px);line-height:.99;margin:0 0 20px;letter-spacing:-.03em}
+  .hero h1 em{font-style:italic;color:var(--accent);font-weight:400}
+  .hero-lede{font-family:Fraunces,Georgia,serif;font-size:clamp(20px,2.4vw,25px);line-height:1.45;margin:0 0 22px;max-width:34ch}
+  .price-tag{
+    display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;
+    background:var(--accent-soft);border:1px solid rgba(79,70,229,.22);border-radius:999px;
+    padding:9px 8px 9px 18px;margin:0 0 26px;font-size:13.5px;color:var(--accent-strong)
+  }
+  .price-tag strong{font-size:15px}
+  .price-tag span{background:#fff;border-radius:999px;padding:4px 12px;font-weight:600;color:var(--ink);font-size:12.5px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+  .hero-facts{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;padding:0;margin:0;font-size:13.5px;color:var(--muted)}
+  .hero-facts li{display:flex;align-items:center;gap:8px}
+  .hero-facts li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+  .flow-card{
+    position:relative;border-radius:28px;padding:26px;border:1px solid var(--line);
+    background:
+      radial-gradient(110% 90% at 90% 0%,rgba(79,70,229,.16),transparent 58%),
+      radial-gradient(80% 70% at 0% 100%,rgba(79,70,229,.09),transparent 60%),
+      linear-gradient(165deg,#efeffb,#fafaf8 58%,#e9e9e3);
+    box-shadow:var(--shadow)
+  }
+  .flow-badge{
+    display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.8);
+    border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:11px;
+    font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:20px
+  }
+  .flow-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(79,70,229,.15);animation:pulse 2.4s ease-in-out infinite}
+  .flow-steps{display:grid;gap:14px;position:relative}
+  .flow-steps::before{content:"";position:absolute;left:33px;top:46px;bottom:46px;border-left:1px dashed rgba(79,70,229,.35);z-index:0}
+  .flow-step{
+    position:relative;z-index:1;display:flex;align-items:center;gap:14px;
+    background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:16px;padding:14px 16px
+  }
+  .fs-icon{width:38px;height:38px;border-radius:11px;background:var(--accent-soft);color:var(--accent-strong);display:grid;place-items:center;flex:0 0 auto}
+  .fs-icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .fs-copy{min-width:0}
+  .fs-label{display:block;font-size:14px;font-weight:600;line-height:1.3}
+  .fs-meta{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+  .fs-flag{
+    margin-left:auto;font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--accent-strong);
+    background:var(--accent-soft);border-radius:999px;padding:3px 8px;white-space:nowrap
+  }
+
+  section{padding:68px 0}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:30px;flex-wrap:wrap}
+  .section-head p{max-width:52ch;margin:0;color:var(--muted)}
+
+  .demo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+  .demo-panel{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:20px;box-shadow:0 18px 40px -34px rgba(30,32,70,.4);min-width:0
+  }
+  .panel-head{display:flex;align-items:flex-start;gap:11px;padding-bottom:15px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+  .panel-num{
+    width:26px;height:26px;border-radius:8px;background:var(--accent-soft);color:var(--accent-strong);
+    display:grid;place-items:center;font-size:12px;font-weight:700;flex:0 0 auto;margin-top:2px
+  }
+  .panel-head h3{font-size:15.5px;font-family:Inter,sans-serif;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+  .panel-sub{font-size:11.5px;color:var(--muted);margin:2px 0 0;line-height:1.4}
+  .panel-foot{font-size:11px;color:var(--muted);margin:13px 0 0;line-height:1.5}
+
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:12px;font-weight:600;letter-spacing:.01em;margin-bottom:5px}
+  .field input,.field textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--line-strong);border-radius:10px;
+    font-family:inherit;font-size:14px;color:var(--ink);background:var(--surface-2);
+    transition:border-color .15s,box-shadow .15s
+  }
+  .field textarea{resize:vertical;min-height:74px}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.14)}
+  .field input[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-color:#a02b1f;box-shadow:0 0 0 3px rgba(160,43,31,.1)}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .error{display:block;font-size:11.5px;font-weight:500;color:#a02b1f;margin-top:4px;min-height:0}
+  .form-status{font-size:12px;font-weight:600;color:var(--accent-strong);margin:10px 0 0}
+  .form-status:empty{display:none}
+
+  .sheet-shell{border:1px solid #dcdee3;border-radius:10px;overflow:hidden;background:#fff}
+  .sheet-top{display:flex;align-items:center;gap:7px;padding:7px 10px;background:#f7f8fa;border-bottom:1px solid #e3e4e8}
+  .sheet-dots{display:flex;gap:4px}
+  .sheet-dots span{width:6px;height:6px;border-radius:50%;background:#cfd2d8}
+  .sheet-name{font-size:9.5px;color:#6b7280;font-weight:600;letter-spacing:.02em}
+  .sheet-name em{font-style:normal;color:#9aa0a8;font-weight:500}
+  table.sheet{width:100%;border-collapse:collapse;table-layout:fixed;font-size:10px;line-height:1.35}
+  .sheet th,.sheet td{border:1px solid #e3e4e8;padding:5px 4px;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#3d424b}
+  .sheet .letters th{background:#f3f4f6;color:#7c828c;text-align:center;font-weight:600;font-size:8.5px;padding:2px}
+  .sheet .gutter{background:#f3f4f6;color:#8b909a;text-align:center;font-size:8.5px;font-weight:500}
+  .sheet .cols th{background:#f8f9fb;font-weight:700;color:#2c313a;font-size:9px;white-space:normal;line-height:1.15;padding:5px 4px}
+  .sheet tbody td{background:#fff}
+  .sheet tbody tr:nth-child(even) td{background:#fbfcfd}
+  .sheet .status{display:inline-block;font-size:8.5px;font-weight:600;border-radius:999px;padding:2px 6px;background:#eef0f4;color:#5b6472;max-width:100%;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+  .sheet .status.is-new{background:var(--accent-soft);color:var(--accent-strong)}
+  .sheet tr.added{animation:rowIn .55s ease both}
+
+  .auto-stack{display:grid;gap:14px}
+  .auto-card{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:14px;transition:border-color .25s,box-shadow .25s}
+  .auto-card.updated{border-color:var(--accent-light);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+  .auto-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .auto-kicker{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .auto-live{font-size:9.5px;font-weight:600;letter-spacing:.04em;background:#eef0f4;color:#6b7280;border-radius:999px;padding:2px 8px}
+  .auto-card.sent .auto-live{background:var(--accent-soft);color:var(--accent-strong)}
+  .email-meta{display:grid;gap:5px;padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--line)}
+  .email-meta div{display:flex;gap:8px;font-size:10.5px;line-height:1.4}
+  .email-meta span{color:var(--muted);min-width:44px;flex:0 0 auto}
+  .email-meta strong{font-weight:600;color:var(--ink);overflow-wrap:anywhere;min-width:0}
+  .email-body{font-size:11.5px;line-height:1.6;color:#343941;white-space:pre-line;overflow-wrap:anywhere}
+  .email-body.is-placeholder{color:var(--muted);font-style:italic}
+
+  .phone{background:#171923;border-radius:14px;padding:12px;color:#fff}
+  .phone-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:10px;color:#b9bac4;margin-bottom:9px;padding:0 2px}
+  .phone-app{font-weight:600;letter-spacing:.02em}
+  .ping-bubble{display:flex;gap:9px;background:#24263a;border:1px solid rgba(199,201,255,.16);border-radius:12px;padding:10px}
+  .ping-avatar{width:28px;height:28px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700;flex:0 0 auto}
+  .ping-copy{min-width:0}
+  .ping-copy strong{display:block;font-size:10.5px;color:#dcddff;letter-spacing:.03em;text-transform:uppercase;margin-bottom:2px}
+  .ping-copy p{font-size:11.5px;line-height:1.45;margin:0;color:#f0f0f5;overflow-wrap:anywhere}
+  .ping-bubble.is-idle .ping-copy p{color:#9fa1b2}
+
+  .demo-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:20px}
+  .demo-actions .btn-ghost{padding:10px 18px;min-height:42px;font-size:13px}
+  .demo-actions p{font-size:12px;color:var(--muted);margin:0}
+
+  .steps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .step-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+  .step-num{font-family:Fraunces,Georgia,serif;font-size:34px;line-height:1;color:var(--accent);display:block;margin-bottom:14px}
+  .step-card h3{font-size:17px;font-family:Inter,sans-serif;font-weight:700;margin-bottom:7px}
+  .step-card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.55}
+  .step-card::after{content:"";position:absolute;right:-24px;bottom:-24px;width:110px;height:110px;border-radius:50%;background:var(--accent-soft);opacity:.6}
+
+  .get-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:34px;align-items:start}
+  .get-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+  .get-list li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.5}
+  .get-list svg{width:19px;height:19px;flex:0 0 auto;margin-top:2px;stroke:var(--accent);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .get-note{background:var(--accent-soft);border:1px solid rgba(79,70,229,.18);border-radius:18px;padding:22px;margin-top:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .get-note strong{font-family:Fraunces,Georgia,serif;font-size:20px;font-weight:500}
+  .get-note span{font-size:13px;color:var(--muted)}
+
+  .site-foot{background:#171923;color:#c9c9c4;padding:30px 0;font-size:13px}
+  .foot-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .foot-row a{color:#fff;text-decoration:none}
+  .foot-brand{font-family:Fraunces,Georgia,serif;font-size:15px;color:#fff}
+
+  @keyframes rowIn{
+    from{opacity:0;transform:translateY(-6px);background:var(--accent-soft)}
+    to{opacity:1;transform:none;background:transparent}
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1}
+    50%{opacity:.45}
+  }
+
+  @media (max-width:960px){
+    .hero{grid-template-columns:1fr;gap:36px;padding:44px 0 54px}
+    .flow-card{max-width:520px}
+    .demo-grid{grid-template-columns:1fr;max-width:600px;margin:0 auto}
+    .steps-grid{grid-template-columns:1fr;max-width:600px;margin:0 auto}
+    .get-wrap{grid-template-columns:1fr;gap:26px}
+    .site-nav a:not(.btn){display:none}
+    section{padding:54px 0}
+  }
+  @media (max-width:520px){
+    .topbar{font-size:11.5px;padding:8px 14px}
+    .brand-sub{display:none}
+    .field-row{grid-template-columns:1fr}
+    .get-list{grid-template-columns:1fr}
+    .demo-panel{padding:16px}
+    .flow-card{padding:18px}
+    .flow-steps::before{left:27px}
+    .hero-facts{font-size:12.5px;gap:6px 16px}
+    .sheet th,.sheet td{padding:4px 3px;font-size:9px}
+    .sheet .cols th{font-size:8.5px;padding:4px 3px}
+    .sheet .status{font-size:8px;padding:1px 4px}
+    .email-body{font-size:11px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none !important;animation:none !important}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="topbar">
+  Demo by WizardCrown, fictional business. Want one for yours? &rarr; <a href="mailto:capsion@outlook.com?subject=Website%20enquiry">wizardcrown builds</a>
+</div>
+
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="#top" aria-label="Enquiry autopilot home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h9M4 19h5"></path><path d="M17 12l3 3-3 3"></path></svg>
+      </span>
+      <span>
+        <span class="brand-name">Enquiry autopilot</span>
+        <span class="brand-sub">By WizardCrown</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#get">What you get</a>
+      <a class="btn btn-sm" href="#demo">Try the demo</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero wrap" id="top">
+    <div>
+      <p class="eyebrow">Automation for small businesses</p>
+      <h1>Enquiry <em>autopilot</em></h1>
+      <p class="hero-lede">Every enquiry from your website lands in a spreadsheet, the customer gets an instant reply, and you get a WhatsApp-style ping. No copy-pasting.</p>
+      <div class="price-tag"><strong>from &pound;120</strong><span>set up in 2 days</span></div>
+      <div class="hero-actions">
+        <a class="btn" href="#demo">See the live demo</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+      <ul class="hero-facts">
+        <li>Fixed price</li>
+        <li>Uses your Gmail &amp; Google Sheets</li>
+        <li>No new software to learn</li>
+      </ul>
+    </div>
+    <div class="flow-card" aria-label="How an enquiry moves through the system">
+      <div class="flow-badge">Automation running</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="fs-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"></rect><path d="M3 9h18M7 13h6"></path></svg>
+          </span>
+          <span class="fs-copy"><span class="fs-label">Website form</span><span class="fs-meta">Bluebell Kitchen &middot; 1 new enquiry</span></span>
+          <span class="fs-flag">Just now</span>
+        </div>
+        <div class="flow-step">
+          <span class="fs-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2.5"></rect><path d="M3 9h18M9 3v18M15 3v18M3 15h18"></path></svg>
+          </span>
+          <span class="fs-copy"><span class="fs-label">Google Sheet</span><span class="fs-meta">Row appended automatically</span></span>
+          <span class="fs-flag">Saved</span>
+        </div>
+        <div class="flow-step">
+          <span class="fs-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M4 7l8 6 8-6"></path></svg>
+          </span>
+          <span class="fs-copy"><span class="fs-label">Reply + phone ping</span><span class="fs-meta">Customer answered in seconds</span></span>
+          <span class="fs-flag">Sent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Live demo</p>
+          <h2>Send an enquiry, watch it fly</h2>
+        </div>
+        <p>Fill in the form on the left. The spreadsheet and the automatic replies update in real time. Everything here is simulated in your browser.</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-panel">
+          <div class="panel-head">
+            <span class="panel-num" aria-hidden="true">1</span>
+            <div>
+              <h3>Your website</h3>
+              <p class="panel-sub">Bluebell Kitchen &middot; enquiry form</p>
+            </div>
+          </div>
+          <form id="enquiry-form" novalidate>
+            <div class="field">
+              <label for="f-name">Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Priya Shah">
+              <span class="error" id="e-name" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" placeholder="priya@example.com">
+              <span class="error" id="e-email" role="alert"></span>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-date">Event date</label>
+                <input id="f-date" name="date" type="date">
+                <span class="error" id="e-date" role="alert"></span>
+              </div>
+              <div class="field">
+                <label for="f-guests">Guests</label>
+                <input id="f-guests" name="guests" type="number" inputmode="numeric" min="1" max="500" placeholder="24">
+                <span class="error" id="e-guests" role="alert"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-msg">Message <span class="muted" style="font-weight:400">(optional)</span></label>
+              <textarea id="f-msg" name="message" maxlength="400" placeholder="Tell us a little about the event&hellip;"></textarea>
+              <span class="error" id="e-msg" role="alert"></span>
+            </div>
+            <button class="btn btn-block" type="submit">Send enquiry</button>
+            <p class="form-status" id="form-status" role="status"></p>
+            <p class="panel-foot" style="margin-top:12px">Demo only &mdash; no data is sent or stored.</p>
+          </form>
+        </article>
+
+        <article class="demo-panel">
+          <div class="panel-head">
+            <span class="panel-num" aria-hidden="true">2</span>
+            <div>
+              <h3>Your spreadsheet</h3>
+              <p class="panel-sub">Enquiry log &middot; Google Sheets preview</p>
+            </div>
+          </div>
+          <div class="sheet-shell">
+            <div class="sheet-top">
+              <span class="sheet-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+              <span class="sheet-name">Bluebell Kitchen <em>&middot; Enquiries</em></span>
+            </div>
+            <table class="sheet" aria-label="Enquiry spreadsheet preview">
+              <colgroup>
+                <col style="width:24px">
+                <col style="width:17%">
+                <col style="width:14%">
+                <col style="width:25%">
+                <col style="width:15%">
+                <col style="width:9%">
+                <col style="width:13%">
+              </colgroup>
+              <thead>
+                <tr class="letters">
+                  <th class="gutter" scope="col"></th>
+                  <th scope="col">A</th>
+                  <th scope="col">B</th>
+                  <th scope="col">C</th>
+                  <th scope="col">D</th>
+                  <th scope="col">E</th>
+                  <th scope="col">F</th>
+                </tr>
+                <tr class="cols">
+                  <th class="gutter" scope="col">1</th>
+                  <th scope="col">Timestamp</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Guests</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="sheet-body">
+                <tr>
+                  <th class="gutter" scope="row">2</th>
+                  <td title="06/11/26 09:14">06/11/26 09:14</td>
+                  <td title="Priya Shah">Priya Shah</td>
+                  <td title="priya.shah@example.com">priya.shah@example.com</td>
+                  <td title="Fri 13 Nov">Fri 13 Nov</td>
+                  <td>24</td>
+                  <td><span class="status">Replied</span></td>
+                </tr>
+                <tr>
+                  <th class="gutter" scope="row">3</th>
+                  <td title="07/11/26 11:32">07/11/26 11:32</td>
+                  <td title="Tom Ellery">Tom Ellery</td>
+                  <td title="tom.ellery@example.com">tom.ellery@example.com</td>
+                  <td title="Sat 21 Nov">Sat 21 Nov</td>
+                  <td>60</td>
+                  <td><span class="status">Quoted</span></td>
+                </tr>
+                <tr>
+                  <th class="gutter" scope="row">4</th>
+                  <td title="07/11/26 16:05">07/11/26 16:05</td>
+                  <td title="Marta Nowak">Marta Nowak</td>
+                  <td title="marta@nowak.example">marta@nowak.example</td>
+                  <td title="Sun 29 Nov">Sun 29 Nov</td>
+                  <td>18</td>
+                  <td><span class="status">Booked</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-foot">New rows slide in at the bottom with status <strong>New</strong>. Nothing is stored.</p>
+        </article>
+
+        <article class="demo-panel">
+          <div class="panel-head">
+            <span class="panel-num" aria-hidden="true">3</span>
+            <div>
+              <h3>What happens automatically</h3>
+              <p class="panel-sub">Email reply and phone notification</p>
+            </div>
+          </div>
+
+          <div class="auto-stack">
+            <div class="auto-card" id="email-card">
+              <div class="auto-head">
+                <span class="auto-kicker">Email auto-reply</span>
+                <span class="auto-live" id="email-live">Waiting</span>
+              </div>
+              <div class="email-meta">
+                <div><span>Auto-reply sent to</span><strong id="email-to">&mdash;</strong></div>
+                <div><span>Subject</span><strong>Re: your event enquiry</strong></div>
+              </div>
+              <div class="email-body is-placeholder" id="email-body">The customer&rsquo;s instant reply will appear here after the first enquiry.</div>
+            </div>
+
+            <div class="auto-card" id="phone-card">
+              <div class="auto-head">
+                <span class="auto-kicker">Phone notification</span>
+                <span class="auto-live" id="phone-live">Idle</span>
+              </div>
+              <div class="phone">
+                <div class="phone-top">
+                  <span class="phone-app">Bluebell Kitchen</span>
+                  <span>now</span>
+                </div>
+                <div class="ping-bubble is-idle" id="ping-bubble">
+                  <span class="ping-avatar" aria-hidden="true">BK</span>
+                  <div class="ping-copy">
+                    <strong>New enquiry</strong>
+                    <p id="ping-text">Notifications appear here after the first form submission.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="panel-foot">The reply is sent from your own Gmail; the ping arrives on your phone.</p>
+        </article>
+      </div>
+
+      <div class="demo-actions">
+        <button class="btn btn-ghost" type="button" id="reset-demo">Reset demo</button>
+        <p>Nothing is stored &mdash; reset or refresh to start over.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>Three moving parts, no jargon</h2>
+        </div>
+        <p>Built on tools you already have, wired together once. After setup it just runs quietly in the background.</p>
+      </div>
+      <div class="steps-grid">
+        <article class="step-card">
+          <span class="step-num">01</span>
+          <h3>The form</h3>
+          <p>A short enquiry form sits on your website, in your colours. Name, email, date, guests and a message &mdash; nothing more.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">02</span>
+          <h3>Google Sheets via Apps Script</h3>
+          <p>Each submission is appended to the spreadsheet you already use, with a timestamp and a clean status column.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">03</span>
+          <h3>Gmail auto-reply + notification</h3>
+          <p>The customer gets a friendly reply in seconds, and a notification lands on your phone so nothing slips through.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="get">
+    <div class="wrap">
+      <div class="get-wrap">
+        <div>
+          <p class="eyebrow">What you get</p>
+          <h2>Answers at 11pm, without lifting a finger</h2>
+          <p class="muted">A small, reliable setup that makes a one-person business feel like a team. No subscriptions to learn, no dashboards to check.</p>
+          <div class="get-note">
+            <strong>from &pound;120</strong>
+            <span>Set up in 2 days &middot; fixed price &middot; live in 7 days</span>
+          </div>
+        </div>
+        <ul class="get-list">
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"></path></svg>Instant replies, even when you are closed</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"></path></svg>Every enquiry in one tidy sheet</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"></path></svg>A phone notification you cannot miss</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"></path></svg>No new software to learn</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"></path></svg>You own the sheet and the email history</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"></path></svg>Set up in 2 days for a fixed price</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span class="foot-brand">Enquiry autopilot</span>
+    <span>Built by WizardCrown &middot; live in 7 days, fixed price</span>
+    <a href="mailto:capsion@outlook.com?subject=Website%20enquiry">wizardcrown builds</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var form = document.getElementById("enquiry-form");
+  var nameInput = document.getElementById("f-name");
+  var emailInput = document.getElementById("f-email");
+  var dateInput = document.getElementById("f-date");
+  var guestsInput = document.getElementById("f-guests");
+  var msgInput = document.getElementById("f-msg");
+  var sheetBody = document.getElementById("sheet-body");
+  var emailCard = document.getElementById("email-card");
+  var emailLive = document.getElementById("email-live");
+  var emailTo = document.getElementById("email-to");
+  var emailBody = document.getElementById("email-body");
+  var phoneCard = document.getElementById("phone-card");
+  var phoneLive = document.getElementById("phone-live");
+  var pingBubble = document.getElementById("ping-bubble");
+  var pingText = document.getElementById("ping-text");
+  var formStatus = document.getElementById("form-status");
+  var resetBtn = document.getElementById("reset-demo");
+
+  var PLACEHOLDER_EMAIL = "The customer\u2019s instant reply will appear here after the first enquiry.";
+  var PLACEHOLDER_PING = "Notifications appear here after the first form submission.";
+
+  var fields = {
+    name: { input: nameInput, error: document.getElementById("e-name") },
+    email: { input: emailInput, error: document.getElementById("e-email") },
+    date: { input: dateInput, error: document.getElementById("e-date") },
+    guests: { input: guestsInput, error: document.getElementById("e-guests") },
+    msg: { input: msgInput, error: document.getElementById("e-msg") }
+  };
+
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+
+  function stamp() {
+    var d = new Date();
+    return pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + String(d.getFullYear()).slice(2) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
+  function prettyDate(iso) {
+    var d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+  }
+
+  function longDate(iso) {
+    var d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  }
+
+  function setError(key, message) {
+    var field = fields[key];
+    if (!field) return;
+    field.error.textContent = message || "";
+    if (message) {
+      field.input.setAttribute("aria-invalid", "true");
+    } else {
+      field.input.removeAttribute("aria-invalid");
+    }
+  }
+
+  function clearErrors() {
+    Object.keys(fields).forEach(function (key) { setError(key, ""); });
+    formStatus.textContent = "";
+  }
+
+  function validate() {
+    clearErrors();
+    var firstInvalid = null;
+
+    var name = nameInput.value.trim();
+    if (name.length < 2) {
+      setError("name", "Please enter your name.");
+      firstInvalid = firstInvalid || nameInput;
+    }
+
+    var email = emailInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      setError("email", "Enter a valid email address.");
+      firstInvalid = firstInvalid || emailInput;
+    }
+
+    var date = dateInput.value;
+    if (!date) {
+      setError("date", "Choose a date.");
+      firstInvalid = firstInvalid || dateInput;
+    } else if (date < todayISO()) {
+      setError("date", "Choose a date from today onwards.");
+      firstInvalid = firstInvalid || dateInput;
+    }
+
+    var guestsRaw = guestsInput.value.trim();
+    var guests = Number(guestsRaw);
+    if (!guestsRaw || !Number.isInteger(guests) || guests < 1 || guests > 500) {
+      setError("guests", "Enter a whole number from 1 to 500.");
+      firstInvalid = firstInvalid || guestsInput;
+    }
+
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return null;
+    }
+
+    return { name: name, email: email, date: date, guests: guests };
+  }
+
+  function buildReply(data) {
+    var first = data.name.split(/\s+/)[0];
+    return "Hi " + first + ",\n\n" +
+      "Thanks for your enquiry and for thinking of Bluebell Kitchen for your event on " +
+      longDate(data.date) + " for " + data.guests + " guests.\n\n" +
+      "We have your message and one of the team will reply within the hour with menus and a quote. " +
+      "If anything is urgent, just reply to this email.\n\n" +
+      "Warmly,\nThe Bluebell Kitchen team\nbluebellkitchen.example";
+  }
+
+  function appendRow(data) {
+    var row = document.createElement("tr");
+    row.className = "added";
+
+    var gutter = document.createElement("th");
+    gutter.className = "gutter";
+    gutter.scope = "row";
+    gutter.textContent = String(sheetBody.rows.length + 2);
+    row.appendChild(gutter);
+
+    var values = [stamp(), data.name, data.email, prettyDate(data.date), String(data.guests)];
+    values.forEach(function (value) {
+      var cell = document.createElement("td");
+      cell.textContent = value;
+      cell.title = value;
+      row.appendChild(cell);
+    });
+
+    var statusCell = document.createElement("td");
+    var badge = document.createElement("span");
+    badge.className = "status is-new";
+    badge.textContent = "New";
+    statusCell.appendChild(badge);
+    row.appendChild(statusCell);
+
+    sheetBody.appendChild(row);
+  }
+
+  function updateEmail(data) {
+    emailTo.textContent = data.email;
+    emailBody.classList.remove("is-placeholder");
+    emailBody.textContent = buildReply(data);
+    emailLive.textContent = "Sent";
+    emailCard.classList.add("sent", "updated");
+  }
+
+  function updatePhone(data) {
+    pingText.textContent = "New enquiry: " + data.name + ", " + data.guests + " guests on " + prettyDate(data.date);
+    pingBubble.classList.remove("is-idle");
+    phoneLive.textContent = "Delivered";
+    phoneCard.classList.add("sent", "updated");
+  }
+
+  function flashPanels() {
+    window.setTimeout(function () {
+      emailCard.classList.remove("updated");
+      phoneCard.classList.remove("updated");
+    }, 1400);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    var data = validate();
+    if (!data) return;
+
+    appendRow(data);
+    updateEmail(data);
+    updatePhone(data);
+    flashPanels();
+
+    formStatus.textContent = "Enquiry added to the sheet \u2014 check the other two panels.";
+  }
+
+  function resetDemo() {
+    form.reset();
+    clearErrors();
+    formStatus.textContent = "";
+
+    var added = sheetBody.querySelectorAll("tr.added");
+    for (var i = 0; i < added.length; i++) added[i].remove();
+
+    emailTo.textContent = "\u2014";
+    emailLive.textContent = "Waiting";
+    emailBody.classList.add("is-placeholder");
+    emailBody.textContent = PLACEHOLDER_EMAIL;
+    emailCard.classList.remove("sent", "updated");
+
+    pingText.textContent = PLACEHOLDER_PING;
+    pingBubble.classList.add("is-idle");
+    phoneLive.textContent = "Idle";
+    phoneCard.classList.remove("sent", "updated");
+
+    nameInput.focus();
+  }
+
+  dateInput.min = todayISO();
+  form.addEventListener("submit", handleSubmit);
+  resetBtn.addEventListener("click", resetDemo);
+})();
+</script>
+</body>
+</html>
